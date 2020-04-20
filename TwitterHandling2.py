@@ -183,14 +183,17 @@ def get_specific_tweet(tweet_id: int):
     print(api.GetStatus(status_id=tweet_id))
 
 
+def post_tweet(message: str):
+    api.PostUpdate(status=message)
+
 # collect_data(screennames=["MMears_"], filename="Tester_twitter.csv")
 # retweet_algo(screennames=["MMears_"], frequency=1)
 
 #collect_screen_names(["MMears_"], "test_screen_name.p")
 #print(len(unpickle_list("test_screen_name.p")))
 #collect_screen_names(unpickle_list("test_screen_name.p"), "test_screen_name.p")
-screen_name_list = unpickle_list("test_screen_name.p")
-print("Uncleaned List Len: " + str(len(screen_name_list)))
-cleaned_list2 = clean_screen_name_list(screen_name_list, 500)
-print("Cleaned List Len: " + str(len(cleaned_list2)))
-pd.read_csv(filepath_or_buffer="JupyterTest2.csv", delimiter="|")
+#screen_name_list = unpickle_list("test_screen_name.p")
+#print("Uncleaned List Len: " + str(len(screen_name_list)))
+#cleaned_list2 = clean_screen_name_list(screen_name_list, 500)
+#print("Cleaned List Len: " + str(len(cleaned_list2)))
+#pd.read_csv(filepath_or_buffer="JupyterTest2.csv", delimiter="|")
