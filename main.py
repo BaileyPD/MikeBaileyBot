@@ -5,14 +5,14 @@ import pickle
 
 
 def tweet_top_reddit_posts(subreddits: [], hashtags: [], freq: int, limit: int):
-    next_post = RedditScraperV2.get_hottest_submission(subreddits, limit)
     file_name = "SavedTweets.p"
     post_id = unpickle_list(file_name)
     cont = True
     count_limit = 5
     while cont:
+        next_posts = RedditScraperV2.get_hottest_submission(subreddits, limit)
         current_count = 0
-        for curr_post in next_post:
+        for curr_post in next_posts:
             if curr_post.id not in post_id:
                 print(curr_post.url)
                 TwitterHandling2.post_tweet(curr_post.title + " " + hashtags[0] + " " + curr_post.url)

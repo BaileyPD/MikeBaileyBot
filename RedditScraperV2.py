@@ -61,7 +61,7 @@ def get_hottest_submission(subreddits: [], limit: int) -> []:
             if normalized_score > cap:
                 cap = normalized_score
                 top_posts.insert(0, x)
-    print("Current Cap Value: " + str(cap))
+    #print("Current Cap Value: " + str(cap))
     return top_posts
 
 
@@ -74,11 +74,6 @@ def get_subreddit_subscriber_count_multi(subreddit_names: []) -> []:
     for x in subreddit_names:
         subcount_list.append(reddit.subreddit(x).subscribers)
     return subcount_list
-
-
-def for_loop_testing(subreddit_names):
-    for x in subreddit_names:
-        print(x)
 
 
 #get_subreddit_submissions_single("News", limit=10)
