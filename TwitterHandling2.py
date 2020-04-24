@@ -183,8 +183,14 @@ def get_specific_tweet(tweet_id: int):
     print(api.GetStatus(status_id=tweet_id))
 
 
-def post_tweet(message: str):
-    api.PostUpdate(status=message)
+def post_tweet(message: str) -> bool:
+    try:
+        api.PostUpdate(status=message)
+        return True
+    except twitter.error.TwitterError:
+        print("Error occured, unable to tweet")
+        return False
+
 
 # collect_data(screennames=["MMears_"], filename="Tester_twitter.csv")
 # retweet_algo(screennames=["MMears_"], frequency=1)

@@ -12,25 +12,29 @@ def tweet_top_reddit_posts(subreddits: [], hashtags: [], freq: int, limit: int):
     while cont:
         next_posts = RedditScraperV2.get_hottest_submission(subreddits, limit)
         current_count = 0
+        tweeted = False
         for curr_post in next_posts:
             if curr_post.id not in post_id:
                 print(curr_post.url)
                 desired_tweet = curr_post.title + " " + hashtags[0] + " " + curr_post.url
-                if len(desired_tweet) >= 165:
-                    url_len = len(curr_post.url)
+                if len(desired_tweet - len(curr_post.url)) >= 165:
                     hashtag_len = len(hashtags[0])
-                    post_len = len(curr_post.title)
+                    # 165 is twitter char lim, 23 is the simplfied URL len, 2 for spaces, 3 for the ...
                     post_stop_index = 165 - 23 - 2 - hashtag_len - 3
                     post_content = curr_post.title[0:post_stop_index]
                     desired_tweet = post_content + "... " + hashtags[0] + " " + curr_post.url
-                    TwitterHandling2.post_tweet(desired_tweet)
+                    tweeted = TwitterHandling2.post_tweet(desired_tweet)
                 else:
-                    TwitterHandling2.post_tweet(desired_tweet)
+                    tweeted = TwitterHandling2.post_tweet(desired_tweet)
                 post_id.append(curr_post.id)
-                current_count = current_count + 1
-                break
+                if tweeted:
+                    current_count = current_count + 1
+                    break
+                else:
+                    continue
             else:
                 continue
+
         if current_count >= count_limit:
             print("Saving IDs")
             print("IDs: " + str(post_id))
