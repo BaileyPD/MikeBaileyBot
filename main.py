@@ -27,6 +27,10 @@ def tweet_top_reddit_posts(subreddits: [], hashtags: [], freq: int, limit: int):
                 else:
                     tweeted = TwitterHandling2.post_tweet(desired_tweet)
                 post_id.append(curr_post.id)
+                if current_count >= count_limit:
+                    print("Saving IDs")
+                    print("IDs: " + str(post_id))
+                    pickle_list(post_id, file_name)
                 if tweeted:
                     current_count = current_count + 1
                     break
@@ -34,11 +38,6 @@ def tweet_top_reddit_posts(subreddits: [], hashtags: [], freq: int, limit: int):
                     continue
             else:
                 continue
-
-        if current_count >= count_limit:
-            print("Saving IDs")
-            print("IDs: " + str(post_id))
-            pickle_list(post_id, file_name)
         time.sleep(3600 / freq)
 
 
