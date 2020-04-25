@@ -17,7 +17,7 @@ def tweet_top_reddit_posts(subreddits: [], hashtags: [], freq: int, limit: int):
             if curr_post.id not in post_id:
                 print(curr_post.url)
                 desired_tweet = curr_post.title + " " + hashtags[0] + " " + curr_post.url
-                if len(desired_tweet - len(curr_post.url)) >= 165:
+                if (len(desired_tweet) - len(curr_post.url)) >= 165:
                     hashtag_len = len(hashtags[0])
                     # 165 is twitter char lim, 23 is the simplfied URL len, 2 for spaces, 3 for the ...
                     post_stop_index = 165 - 23 - 2 - hashtag_len - 3
