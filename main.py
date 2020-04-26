@@ -16,10 +16,14 @@ def tweet_top_reddit_posts(subreddits: [], hashtags: [], freq: int, limit: int):
         for curr_post in next_posts:
             if curr_post.id not in post_id:
                 print(curr_post.url)
-                desired_tweet = curr_post.title + " " + hashtags[0] + " " + curr_post.url
+                hashtag_str = str
+                for x in hashtags:
+                    hashtag_str = hashtag_str + " "
+                    print(hashtag_str)
+                desired_tweet = curr_post.title + " " + hashtag_str + curr_post.url
                 if (len(desired_tweet) - len(curr_post.url)) >= 165:
-                    hashtag_len = len(hashtags[0])
-                    # 165 is twitter char lim, 23 is the simplfied URL len, 2 for spaces, 3 for the ...
+                    hashtag_len = len(hashtag_str)
+                    # 165 is twitter char lim, 23 is the simplfied URL len, 2 for spaces, 3 for the "..."
                     post_stop_index = 165 - 23 - 2 - hashtag_len - 3
                     post_content = curr_post.title[0:post_stop_index]
                     desired_tweet = post_content + "... " + hashtags[0] + " " + curr_post.url
@@ -30,6 +34,8 @@ def tweet_top_reddit_posts(subreddits: [], hashtags: [], freq: int, limit: int):
                 if current_count >= count_limit:
                     print("Saving IDs")
                     print("IDs: " + str(post_id))
+                    if len(post_id) > (freq * 24):
+                        post_id = post_id[12:len(post_id)-1]
                     pickle_list(post_id, file_name)
                 if tweeted:
                     current_count = current_count + 1
