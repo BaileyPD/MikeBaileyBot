@@ -20,6 +20,12 @@ column_names_users = ["Screen Name", "User ID", "Followers Count"]
 # TODO: Add Tweeting functions (Tweet, Re-Tweet, Like, etc.)
 
 
+def get_stream():
+    stream = api.GetStreamFilter(filter_level="low")
+    for x in stream:
+        print(x)
+
+
 def get_statues(screen_name):
     """
     Gets the statues of a specified user
@@ -192,14 +198,11 @@ def post_tweet(message: str) -> bool:
         return False
 
 
-# collect_data(screennames=["MMears_"], filename="Tester_twitter.csv")
-# retweet_algo(screennames=["MMears_"], frequency=1)
+def post_tweet_with_image(message: str, image_filename: str):
+    try:
+        api.PostUpdate(status=message, media=image_filename)
+        return True
+    except twitter.error.TwitterError:
+        print("Error occurred, unable to tweet")
+        return False
 
-#collect_screen_names(["MMears_"], "test_screen_name.p")
-#print(len(unpickle_list("test_screen_name.p")))
-#collect_screen_names(unpickle_list("test_screen_name.p"), "test_screen_name.p")
-#screen_name_list = unpickle_list("test_screen_name.p")
-#print("Uncleaned List Len: " + str(len(screen_name_list)))
-#cleaned_list2 = clean_screen_name_list(screen_name_list, 500)
-#print("Cleaned List Len: " + str(len(cleaned_list2)))
-#pd.read_csv(filepath_or_buffer="JupyterTest2.csv", delimiter="|")
