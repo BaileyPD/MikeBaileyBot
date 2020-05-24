@@ -1,7 +1,10 @@
 import requests, json
 import pandas as pd
 from bs4 import BeautifulSoup
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 class Request:
+    CSVPath = ""
     URL = ""
     soup = ""
     table = ""
@@ -72,32 +75,61 @@ class Request:
         self.data = tempFrame
 
 
-    def changeURL(self, newURL):
-        """
 
-        :param newURL: For changing Request objects internal URL variable
-        """
-        self.URL = newURL
 
 
     def displayToday(self):
         """
-
-        :return: For creating a basic plot through functions. Will be finished later.
+        For creating a basic plot through functions. Work in progress
         """
-        return
+        dates = self.data['Date']
+
+        fig, ax = plt.subplots()
+        ax.plot(dates, self.data['Positive'])
+        ax.plot(dates, self.data['Hospitalized'])
+        ax.plot(dates, self.data['Deaths'])
+
+        ax.xaxis.set_major_formatter(mdates.DateFormatter("%m-%d"))
+        ax.xaxis.set_minor_formatter(mdates.DateFormatter("%m-%d"))
+        _ = plt.xticks(rotation=45)
+        ax.legend(['Positive', 'Hospitalized', 'Deaths'])
+        fig.show()
+
+        # plt.plot(self.data['Date'], self.data['Positive'])
+        # plt.plot(self.data['Date'], self.data['Hospitalized'])
+        # plt.plot(self.data['Date'], self.data['Deaths'])
+        # plt.format_xdata()
+        # plt.xticks(rotation=45)
+        # plt.legend(['Positive', 'Hospitalized', 'Deaths'])
+        # plt.show()
+        # print(self.data.info())
 
 
     def updateDatasetCSV(self, filePath):
         """
-        When finished will find that last listed day of data retrieval in CSV and will append new data to the end.
+        Finds last listed day of data retrieval in CSV and will append new data to the end.
         :param filePath:
         """
-        newDataHolder = []
         data = pd.read_csv(filePath)
-        lastDate = data[-1]
+        lastDate = data['Date'].iloc[-1]
+
+        newData = self.data.loc[self.data['Date'] > lastDate]
+        # print(self.data.loc[self.data['Date'] > lastDate])
+
+        newData.to_csv(filePath, mode='a', header=False, index=False)
+
+    def changeURL(self, newURL):
+        """
+        :param newURL: For changing Request objects internal URL variable
+        """
+        self.URL = newURL
+
+    def changeCSVFilepath(self, newPath):
+        self.CSVPath = newPath
 
 
+    def dataToCSV(self,fileName):
+        self.data.to_csv(fileName, index = False)
 
 
 
